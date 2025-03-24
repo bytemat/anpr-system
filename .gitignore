@@ -1,3 +1,7 @@
+# Folders
+/datasets
+/uploads
+
 # Python
 __pycache__/
 *.py[cod]
