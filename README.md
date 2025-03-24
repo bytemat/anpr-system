@@ -1,8 +1,7 @@
 # Automatic Number Plate Recognition (ANPR) System
 
-### A real-time ANPR system built with Flask and YOLOv8 for detecting Paraguay license plates.
-
-This project implements a real-time Automatic Number Plate Recognition (ANPR) system that detects and reads license plates in Paraguay. Using YOLOv8 for detection and Flask for the web interface, the system supports both the traditional red plates and the new blue MERCOSUR plates.
+### A real-time ANPR system powered by Flask and YOLOv8
+This project implements a real-time Automatic Number Plate Recognition (ANPR) system that detects and reads vehicle registration plates in Paraguay. Using YOLOv8 for detection and Flask for the web interface, the system supports both the traditional red plates and the newly introduced Mercosur plates.
 
 ### Key Features:
 - Real-time license plate recognition for vehicles in Paraguay
