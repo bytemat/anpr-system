@@ -5,10 +5,11 @@ from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import SubmitField
 import os
 import tempfile
+import secrets
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'longrandomstring'
-app.config['UPLOADED_PHOTOS_DEST'] = tempfile.mkdtemp()
+app.config['SECRET_KEY'] = secrets.token_hex(24)
+app.config['UPLOADED_PHOTOS_DEST'] = tempfile.TemporaryDirectory()
 
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
