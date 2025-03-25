@@ -58,9 +58,9 @@ body{
     display: none;
 }
 
-/* .darkmode #theme-switch svg:last-child {
+.darkmode #theme-switch svg:last-child {
     display: none;
-} */
+} 
 
 .darkmode #theme-switch svg:first-child {
     display: block;
