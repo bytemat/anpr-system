@@ -4,10 +4,11 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import SubmitField
 import os
+import tempfile
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'longrandomstring'
-app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
+app.config['UPLOADED_PHOTOS_DEST'] = tempfile.mkdtemp()
 
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
@@ -41,5 +42,4 @@ def upload_image():
 if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOADED_PHOTOS_DEST']):
         os.makedirs(app.config['UPLOADED_PHOTOS_DEST'])
-
     app.run(debug=True)
