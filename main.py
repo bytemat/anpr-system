@@ -3,13 +3,39 @@ from flask_uploads import UploadSet, IMAGES, configure_uploads
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import SubmitField
-import os
-import tempfile
-import secrets
+from threading import Thread
+import os, time, secrets, schedule
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(24)
-app.config['UPLOADED_PHOTOS_DEST'] = tempfile.TemporaryDirectory()
+app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
+
+def cleanup_uploads():
+    if not os.path.exists(app.config['UPLOADED_PHOTOS_DEST']):
+        print(f"{app.config['UPLOADED_PHOTOS_DEST']} does not exist. Skipping cleanup.")
+        return
+    
+    for file_name in os.listdir(app.config['UPLOADED_PHOTOS_DEST']):
+        file_path = os.path.join(app.config['UPLOADED_PHOTOS_DEST'], file_name)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+                print(f"Deleted: {file_path}")
+        except Exception as e:
+            print(f"Error deleting {file_path}: {e}")
+
+def run_scheduler():
+    schedule.every(30).minute.do(cleanup_uploads)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+
+scheduler_thread = Thread(target=run_scheduler)
+scheduler_thread.daemon = True 
+
+scheduler_thread.start()
 
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
@@ -40,7 +66,15 @@ def upload_image():
        
     return render_template('index.html', form=form, file_url=file_url)
 
+
+
 if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOADED_PHOTOS_DEST']):
         os.makedirs(app.config['UPLOADED_PHOTOS_DEST'])
+    
     app.run(debug=True)
+
+
+
+
+
