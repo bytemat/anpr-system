@@ -1,6 +1,7 @@
 # Folders
 /datasets
 /uploads
+/runs
 
 # Python
 __pycache__/
